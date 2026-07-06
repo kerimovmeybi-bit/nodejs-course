@@ -1,34 +1,40 @@
 const {
-  addTask,
-  getTasks,
-  completeTask,
-  deleteTask,
-} = require('./modules/taskService');
+  initStorage,
+  readTasks,
+  saveTasks,
+} = require('./modules/fileStorage');
 
 const formatTask = require('./modules/taskFormatter');
 
-console.log('=== Додаємо задачі ===');
+initStorage();
 
-addTask('Learn Node.js modules');
-addTask('Practice fs module');
-addTask('Build task tracker');
+const tasks = [
+  {
+    id: 1,
+    title: 'Learn fs module',
+    completed: false,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 2,
+    title: 'Practice path module',
+    completed: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 3,
+    title: 'Save tasks to JSON',
+    completed: false,
+    createdAt: new Date().toISOString(),
+  },
+];
 
-console.log('\n=== Список задач ===');
+saveTasks(tasks);
 
-getTasks().forEach((task) => {
-  console.log(formatTask(task));
-});
+const storedTasks = readTasks();
 
-console.log('\n=== Позначаємо задачу №2 виконаною ===');
+console.log('=== Tasks from file ===');
 
-completeTask(2);
-
-console.log('\n=== Видаляємо задачу №1 ===');
-
-deleteTask(1);
-
-console.log('\n=== Оновлений список задач ===');
-
-getTasks().forEach((task) => {
+storedTasks.forEach((task) => {
   console.log(formatTask(task));
 });
