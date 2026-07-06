@@ -1,40 +1,25 @@
-let tasks = [];
-let nextId = 1;
+const crypto = require('crypto');
 
-function addTask(title) {
-  const task = {
-    id: nextId++,
+function createTask(title, tasks) {
+  const nextId =
+    tasks.length > 0
+      ? Math.max(...tasks.map((task) => task.id)) + 1
+      : 1;
+
+  return {
+    id: nextId,
     title,
     completed: false,
+    hash: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
   };
-
-  tasks.push(task);
-
-  return task;
 }
 
-function getTasks() {
-  return tasks;
-}
-
-function completeTask(id) {
-  const task = tasks.find((task) => task.id === id);
-
-  if (task) {
-    task.completed = true;
-  }
-
-  return task;
-}
-
-function deleteTask(id) {
-  tasks = tasks.filter((task) => task.id !== id);
+function getTaskById(tasks, id) {
+  return tasks.find((task) => task.id === id);
 }
 
 module.exports = {
-  addTask,
-  getTasks,
-  completeTask,
-  deleteTask,
+  createTask,
+  getTaskById,
 };
