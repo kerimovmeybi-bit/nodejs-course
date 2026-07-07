@@ -6,20 +6,25 @@ function createTask(title, tasks) {
       ? Math.max(...tasks.map((task) => task.id)) + 1
       : 1;
 
+  const createdAt =
+    new Date().toISOString();
+
+  const hash = crypto
+    .createHash('sha256')
+    .update(
+      `${nextId}-${title}-${createdAt}`
+    )
+    .digest('hex');
+
   return {
     id: nextId,
     title,
     completed: false,
-    hash: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
+    createdAt,
+    hash,
   };
-}
-
-function getTaskById(tasks, id) {
-  return tasks.find((task) => task.id === id);
 }
 
 module.exports = {
   createTask,
-  getTaskById,
 };

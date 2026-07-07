@@ -3,10 +3,9 @@ const os = require('os');
 function getSystemInfo() {
   return {
     platform: os.platform(),
-    hostname: os.hostname(),
-    uptime: os.uptime(),
-    totalMemory: os.totalmem(),
     freeMemory: os.freemem(),
+    uptime: os.uptime(),
+    cpuCount: os.cpus().length,
   };
 }
 
